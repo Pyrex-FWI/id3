@@ -45,7 +45,7 @@ class Id3MetadataTest extends \PHPUnit_Framework_TestCase
      * @param Id3MetadataInterface $id3Metadata
      * @dataProvider id3MetadataProvider
      */
-    public function testMethodExistence(Id3MetadataInterface $id3Metadata)
+    public function testMethodsExistence(Id3MetadataInterface $id3Metadata)
     {
         $this->assertTrue(method_exists($id3Metadata,'setAllArtists'));
         $this->assertTrue(method_exists($id3Metadata,'getAllArtists'));
@@ -87,6 +87,8 @@ class Id3MetadataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::getGenres()[0], $id3Metadata->getGenre());
         $id3Metadata->setKey(self::getKey());
         $this->assertEquals(self::getKey(), $id3Metadata->getKey());
+        $id3Metadata->setTimeDuration(self::getDuration());
+        $this->assertEquals(self::getDuration(), $id3Metadata->getTimeDuration());
     }
 
     /**
@@ -126,5 +128,13 @@ class Id3MetadataTest extends \PHPUnit_Framework_TestCase
     public static function getKey()
     {
         return '2Bm';
+    }
+
+    /**
+     * @return float
+     */
+    public static function getDuration()
+    {
+        return 850.50;
     }
 }

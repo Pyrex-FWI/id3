@@ -20,4 +20,9 @@ class Helper
 		return '/usr/bin/mediainfo';
 	}
 
+	public static function getEyed3Path()
+	{
+		return '/usr/local/bin/eyeD3';
+	}
+
 }
