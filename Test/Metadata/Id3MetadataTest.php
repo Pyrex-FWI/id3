@@ -19,7 +19,7 @@ class Id3MetadataTest extends \PHPUnit_Framework_TestCase
      */
     private function getId3MetadataInstance()
     {
-        return new Id3Metadata(Helper::getSampeFileToodie());
+        return new Id3Metadata(Helper::getSampeMp3File());
     }
 
     /**

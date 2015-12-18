@@ -21,7 +21,7 @@ class Helper
 		return 'flac';
 	}
 
-	public static function getMp4()
+	public static function getMp4Ext()
 	{
 		return 'mp4';
 	}
