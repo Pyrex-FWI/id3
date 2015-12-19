@@ -13,9 +13,14 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	/**
 	 * @param Id3MetadataInterface $id3Metadata
 	 * @return bool
+	 * @throws \Exception
 	 */
 	public function read(Id3MetadataInterface $id3Metadata)
 	{
+
+		if (!$this->supportRead($id3Metadata)) {
+			throw new \Exception('Read not supported for %s', $id3Metadata->getFile()->getRealPath());
+		}
 		$cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
 		exec($cmd, $output, $return);
 
@@ -52,7 +57,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	 */
 	public function getCommand($file)
 	{
-		return sprintf('%s --no-color %s', $this->binPath, $file);
+		return sprintf('%s --no-color %s 2> /dev/null', $this->binPath, $file);
 	}
 
 

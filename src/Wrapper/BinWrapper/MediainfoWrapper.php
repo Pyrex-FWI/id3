@@ -13,9 +13,14 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
 	/**
 	 * @param Id3MetadataInterface $id3Metadata
 	 * @return bool
+	 * @throws \Exception
 	 */
 	public function read(Id3MetadataInterface $id3Metadata)
 	{
+		if (!$this->supportRead($id3Metadata)) {
+			throw new \Exception('Read not supported for %s', $id3Metadata->getFile()->getRealPath());
+		}
+
 		$cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
 		$out = shell_exec($cmd);
 		$simpleXMLElement = @simplexml_load_string($out);
