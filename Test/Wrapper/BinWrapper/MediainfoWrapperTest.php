@@ -9,7 +9,24 @@ use Cpyree\Id3\Test\Helper;
 
 class MediainfoWrapperTest extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var MediainfoWrapper
+	 */
+	private $mediaInfoWrapper;
 
+	protected function setUp()
+	{
+		$this->mediaInfoWrapper = $this->getMediainfoWrapper();
+		$this->mediaInfoWrapper->setBinPath(Helper::getMediainfoPath());
+	}
+
+	/**
+	 * @return MediainfoWrapper
+	 */
+	public function getMediainfoWrapper()
+	{
+		return new  MediainfoWrapper();
+	}
 	/**
 	 * @expectedException \Exception
 	 */
@@ -23,29 +40,24 @@ class MediainfoWrapperTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testNotExistBinException()
 	{
-		$mediaInfoWrapper = new  MediainfoWrapper();
-		$mediaInfoWrapper->setBinPath('xxnotxxexist');
+		$this->mediaInfoWrapper->setBinPath('xxnotxxexist');
 	}
 
 
 	public function testWrongMp3FileException()
 	{
-		$mediaInfoWrapper = new  MediainfoWrapper();
-		$mediaInfoWrapper->setBinPath(Helper::getMediainfoPath());
-
 		$metaDataFile = new Id3Metadata(Helper::getWrongMp3File());
-		$this->assertFalse($mediaInfoWrapper->read($metaDataFile));
+		$this->assertFalse($this->mediaInfoWrapper->read($metaDataFile));
 	}
 
 
-	public function testInit()
+	public function testRead()
 	{
-		$mediaInfoWrapper = new  MediainfoWrapper();
-		$mediaInfoWrapper->setBinPath(Helper::getMediainfoPath());
-		$this->assertContains("MediaInfoLib", $mediaInfoWrapper->getVersion());
+		$this->mediaInfoWrapper->setBinPath(Helper::getMediainfoPath());
+		$this->assertContains("MediaInfoLib", $this->mediaInfoWrapper->getVersion());
 
 		$metaDataFile = new Id3Metadata(Helper::getSampeMp3File());
-		if ($mediaInfoWrapper->read($metaDataFile)) {
+		if ($this->mediaInfoWrapper->read($metaDataFile)) {
 			$this->assertEquals('Nom du morceau', $metaDataFile->getTitle());
 			$this->assertEquals('Artiste', $metaDataFile->getArtist());
 			$this->assertEquals('Nom de l\'album', $metaDataFile->getAlbum());
@@ -55,8 +67,14 @@ class MediainfoWrapperTest extends \PHPUnit_Framework_TestCase
 			$this->assertEquals('87.875', $metaDataFile->getTimeDuration());
 		}
 
-		$this->assertTrue($mediaInfoWrapper->supportRead($metaDataFile));
-		$this->assertFalse($mediaInfoWrapper->supportWrite($metaDataFile));
-		$mediaInfoWrapper->write($metaDataFile);
+		$this->assertTrue($this->mediaInfoWrapper->supportRead($metaDataFile));
+
+	}
+
+	public function testWrite()
+	{
+		$metaDataFile = new Id3Metadata(Helper::getSampeMp3File());
+		$this->assertFalse($this->mediaInfoWrapper->supportWrite($metaDataFile));
+		$this->mediaInfoWrapper->write($metaDataFile);
 	}
 }

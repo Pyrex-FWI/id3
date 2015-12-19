@@ -212,7 +212,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setBpm($bpm)
     {
-        $this->bpm = $bpm;
+        $this->bpm = floatval($bpm);
         return $this;
     }
 
