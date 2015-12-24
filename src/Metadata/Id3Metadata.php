@@ -18,6 +18,10 @@ class Id3Metadata extends Id3MetadataBase implements Id3MetadataInterface, \Json
     {
         $json = array();
         foreach($this as $key => $value) {
+            if ($key == 'file') {
+                $json[$key] = $this->file->getRealPath();
+                continue;
+            }
             $json[$key] = $value;
         }
         return $json;

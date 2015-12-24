@@ -14,48 +14,48 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
     /**
      * @var string
      */
-    private $album;
+    protected $album;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
     /**
      * @var string
      */
-    private $artist;
+    protected $artist;
     /**
      * @var array
      */
-    private $artists = [];
+    protected $artists = [];
     /**
      * @var string
      */
-    private $genre;
+    protected $genre;
     /**
      * @var array
      */
-    private $genres = [];
+    protected $genres = [];
     /**
      * @var string
      */
-    private $comment;
+    protected $comment;
     /**
      * @var int
      */
-    private $year;
+    protected $year;
     /**
      * @var string
      */
-    private $key;
+    protected $key;
     /**
      * @var int
      */
-    private $bpm;
+    protected $bpm;
     /**
      * @var int
      */
-    private $duration;
+    protected $duration;
 
     public function __construct($filePath)
     {
