@@ -51,7 +51,7 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
 	 */
 	public function getCommand($file)
 	{
-		return sprintf('%s --Full --Output=XML %s 2>&1', $this->binPath, $file);
+		return sprintf('%s --Full --Output=XML %s 2>&1', $this->binPath, escapeshellarg($file));
 	}
 
 
