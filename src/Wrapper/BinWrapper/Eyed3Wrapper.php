@@ -57,7 +57,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	 */
 	public function getCommand($file)
 	{
-		return sprintf('%s --no-color %s 2> /dev/null', $this->binPath, $file);
+		return sprintf('%s --no-color --v2 %s 2> /dev/null', $this->binPath, $file);
 	}
 
 
