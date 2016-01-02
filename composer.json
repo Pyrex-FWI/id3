@@ -15,7 +15,7 @@
       "Cpyree\\Id3\\Test\\": "Test"
     }
   },
-  "require": {
+  "require-dev": {
     "phpunit/phpunit": "5.1.3"
   }
 }

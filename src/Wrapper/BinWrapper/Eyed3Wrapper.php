@@ -81,7 +81,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 			throw new \Exception('Write not supported for %s', $id3Metadata->getFile()->getRealPath());
 		}
 
-		$cmd =(sprintf('%s --log-level critical  --quiet %s %s &> /dev/null && echo $?', $this->binPath, $id3Metadata->getFile()->getRealPath(), $this->buildCmdPart($id3Metadata)));
+		$cmd =(sprintf('%s --log-level critical  --quiet %s %s &> /dev/null && echo $?', $this->binPath, escapeshellarg($id3Metadata->getFile()->getRealPath()), $this->buildCmdPart($id3Metadata)));
 		exec($cmd, $output, $return_var);
 
 		return !(boolval($return_var));
