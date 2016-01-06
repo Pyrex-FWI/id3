@@ -23,7 +23,7 @@ abstract class BinWrapperBase implements  BinWrapperInterface
 	 */
 	public function setBinPath($binPath)
 	{
-		if (!file_exists($binPath)  || !is_executable($binPath)) {
+		if ((!file_exists($binPath)  || !is_executable($binPath)) && strstr($binPath, ' ') === false) {
 			throw new \Exception(sprintf('%s not exist // or not executable', $binPath));
 		}
 
