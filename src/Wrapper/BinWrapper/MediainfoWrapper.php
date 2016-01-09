@@ -86,11 +86,23 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
 		$id3Metadata->setArtist($this->get('Performer'));
 		$id3Metadata->setAlbum($this->get('Album'));
 		$id3Metadata->setGenre($this->get('Genre'));
-		$id3Metadata->setYear(substr($this->get('Recorded_date'), 0, 4));
+		$id3Metadata->setYear($this->extractYear($this->get('Recorded_date')));
 		$id3Metadata->setComment($this->get('Comment'));
 		$id3Metadata->setBpm($this->get('BPM'));
 		$id3Metadata->setTimeDuration($this->getDuration());
+	}
 
+	/**
+	 * To check UTC 2014-10- 7
+	 * @param $rawRecordedDate
+	 * @return int
+	 */
+	private function extractYear($rawRecordedDate)
+	{
+		preg_match_all('/^(...)?\s?(?P<year>\d{4})(\-\s?\d{1,2}\-\s?\d{1,2})?$/', $rawRecordedDate, $match_all);
+		if (isset($match_all['year'][0])) {
+			return intval($match_all['year'][0]);
+		}
 	}
 
 	/**
