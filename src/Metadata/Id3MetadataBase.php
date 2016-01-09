@@ -105,7 +105,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setArtist($artist)
     {
-        $this->artist = $artist;
+        $this->artist = trim($artist);
         return $this;
     }
 
@@ -141,7 +141,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setGenre($genre)
     {
-        $this->genre = $genre;
+        $this->genre = trim($genre);
         return $this;
     }
 
@@ -177,7 +177,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setComment($comment)
     {
-        $this->comment = $comment;
+        $this->comment = trim($comment);
         return $this;
     }
 
@@ -195,7 +195,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setYear($year)
     {
-        $this->year = $year;
+        $this->year = trim($year);
         return $this;
     }
     /**
@@ -212,7 +212,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setBpm($bpm)
     {
-        $this->bpm = floatval($bpm);
+        $this->bpm = floatval(trim($bpm));
         return $this;
     }
 
@@ -230,7 +230,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setKey($key)
     {
-        $this->key = $key;
+        $this->key = trim($key);
         return $this;
     }
 
@@ -248,7 +248,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setAlbum($album)
     {
-        $this->album = $album;
+        $this->album = trim($album);
         return $this;
 
     }
@@ -268,7 +268,7 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     public function setTimeDuration($time)
     {
-        $this->duration = $time;
+        $this->duration = trim($time);
     }
 
 }
