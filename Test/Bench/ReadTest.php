@@ -28,7 +28,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$id3meta = new \Cpyree\Id3\Metadata\Id3Metadata(Helper::getSampeMp3File());
+        self::$id3meta = new \Cpyree\Id3\Metadata\Id3Metadata(Helper::getSampleMp3File());
         self::$eyed3= new \Cpyree\Id3\Wrapper\BinWrapper\Eyed3Wrapper();
         self::$eyed3->setBinPath(Helper::getEyed3Path());
 

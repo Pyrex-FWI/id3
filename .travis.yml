@@ -12,6 +12,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install python -y
   - sudo apt-get install  -y mediainfo
+  - sudo apt-get install  -y id3v2
   - whereis mediainfo
   - wget https://bootstrap.pypa.io/get-pip.py
   - sudo python get-pip.py
