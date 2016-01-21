@@ -1,21 +1,21 @@
+"description": "The package lays the basis for the simple manipulation of ID3 tags.\nYou can define readers and writers to manipulate the metadata in read or write.",
+"minimum-stability": "dev",
+"license": "MIT",
+"authors": [
 {
-  "name": "pyrex-fwi/id3",
-  "description": "The package lays the basis for the simple manipulation of ID3 tags.\nYou can define readers and writers to manipulate the metadata in read or write.",
-  "minimum-stability": "dev",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Christophe Pyree",
-      "email": "christophe.pyree@gmail.com"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Cpyree\\Id3\\": "src",
-      "Cpyree\\Id3\\Test\\": "Test"
-    }
-  },
-  "require-dev": {
-    "phpunit/phpunit": "5.1.3"
-  }
+"name": "Christophe Pyree",
+"email": "christophe.pyree@gmail.com"
 }
+],
+"autoload": {
+"psr-4": {
+"Cpyree\\Id3\\": "src",
+"Cpyree\\Id3\\Test\\": "Test"
+}
+},
+"require-dev": {
+"phpunit/phpunit": "5.1.3"
+}
+}
+{
+"name": "pyrex-fwi/id3",
