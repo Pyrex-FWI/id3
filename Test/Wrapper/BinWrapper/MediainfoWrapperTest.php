@@ -56,7 +56,7 @@ class MediainfoWrapperTest extends \PHPUnit_Framework_TestCase
 		$this->mediaInfoWrapper->setBinPath(Helper::getMediainfoPath());
 		$this->assertContains("MediaInfoLib", $this->mediaInfoWrapper->getVersion());
 
-		$metaDataFile = new Id3Metadata(Helper::getSampeMp3File());
+		$metaDataFile = new Id3Metadata(Helper::getSampleMp3File());
 		if ($this->mediaInfoWrapper->read($metaDataFile)) {
 			$this->assertEquals('Nom du morceau', $metaDataFile->getTitle());
 			$this->assertEquals('Artiste', $metaDataFile->getArtist());
@@ -73,7 +73,7 @@ class MediainfoWrapperTest extends \PHPUnit_Framework_TestCase
 
 	public function testWrite()
 	{
-		$metaDataFile = new Id3Metadata(Helper::getSampeMp3File());
+		$metaDataFile = new Id3Metadata(Helper::getSampleMp3File());
 		$this->assertFalse($this->mediaInfoWrapper->supportWrite($metaDataFile));
 		$this->mediaInfoWrapper->write($metaDataFile);
 	}

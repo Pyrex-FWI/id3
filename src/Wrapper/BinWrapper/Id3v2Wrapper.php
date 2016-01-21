@@ -5,8 +5,9 @@ namespace Cpyree\Id3\Wrapper\BinWrapper;
 
 use Cpyree\Id3\Helper;
 use Cpyree\Id3\Metadata\Id3MetadataInterface;
+use Cpyree\Id3\Spec\Frames;
 
-class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
+class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
 {
 	private $rawReadOutput;
 
@@ -17,27 +18,19 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	 */
 	public function read(Id3MetadataInterface $id3Metadata)
 	{
-
 		if (!$this->supportRead($id3Metadata)) {
-			throw new \Exception('Read not supported for %s', $id3Metadata->getFile()->getRealPath());
+			throw new \Exception(sprintf('Read not supported for %s', $id3Metadata->getFile()->getRealPath()));
 		}
+
 		$cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
-		exec($cmd, $output, $return);
-
-		if (! boolval($return)) {
-			$this->rawReadOutput = implode(PHP_EOL, $output);
-
-			$id3Metadata
-				->setArtist($this->getFromRegex('/^artist:\s(?P<artist>.*)$/m', 'artist'))
-				->setAlbum($this->getFromRegex('/^album:\s(?P<album>.*)$/m', 'album'))
-				->setGenre($this->getFromRegex('/genre:\s(?P<genre>.*)\s\(.*\)$/m', 'genre'))
-				->setComment($this->getFromRegex('/^Comment:\s.*?\n^(?P<comment>.*)$/m', 'comment'))
-				->setBpm($this->getFromRegex('/^BPM:\s(?P<bpm>\d{1,3})$/m', 'bpm'))
-				->setTitle($this->getFromRegex('/^title:\s(?P<title>.*)$/m', 'title'))
-				->setYear($this->getFromRegex('/^recording\sdate:\s(?P<recording_date>\d{4})$/m', 'recording_date'))
-			;
+		$this->rawReadOutput = trim(shell_exec($cmd));
+		preg_match_all('/^(?P<frame>\w{4}):\s+(\([^:\n]*:?\s?)?(?P<value>[^:]*$)/m', $this->rawReadOutput, $out);
+		$this->rawReadOutput = array_combine($out['frame'], $out['value']);
+		if (count($this->rawReadOutput) > 1) {
+			$this->normalize($id3Metadata);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -46,8 +39,9 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	 */
 	public function getVersion()
 	{
-		exec(sprintf('%s --version 2>&1 && true', $this->binPath ), $output, $return_var);
-		return implode(PHP_EOL, $output);
+		exec(sprintf('%s --v', $this->binPath), $out );
+
+		return implode(PHP_EOL, $out);
 	}
 
 
@@ -57,20 +51,19 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	 */
 	public function getCommand($file)
 	{
-		return sprintf('%s --no-color --v2 %s 2> /dev/null', $this->binPath, $file);
+		return sprintf('%s -R %s 2>&1', $this->binPath, escapeshellarg($file));
 	}
 
 
 	/**
 	 * @return array
 	 */
-	public function getSupportedExtensionsForWrite()
+	public function getSupportedExtensionsForRead()
 	{
-		return [ Helper::getFlacExt(), Helper::getMp3Ext(), Helper::getMp4Ext() ];
+		return [Helper::getMp3Ext(), Helper::getMp4Ext() ];
 	}
 
 	/**
-	 * /**
 	 * @param Id3MetadataInterface $id3Metadata
 	 * @return bool
 	 * @throws \Exception
@@ -78,10 +71,10 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	public function write(Id3MetadataInterface $id3Metadata)
 	{
 		if (!$this->supportWrite($id3Metadata)) {
-			throw new \Exception('Write not supported for %s', $id3Metadata->getFile()->getRealPath());
+			throw new \Exception(sprintf('Write not supported for %s', "" + $id3Metadata->getFile()->getRealPath()));
 		}
 
-		$cmd =(sprintf('%s --log-level critical  --quiet %s %s &> /dev/null && echo $?', $this->binPath, escapeshellarg($id3Metadata->getFile()->getRealPath()), $this->buildCmdPart($id3Metadata)));
+		$cmd =(sprintf('%s  %s %s', $this->binPath, escapeshellarg($id3Metadata->getFile()->getRealPath()), $this->buildCmdPart($id3Metadata)));
 		exec($cmd, $output, $return_var);
 
 		return !(boolval($return_var));
@@ -90,10 +83,41 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	/**
 	 * @return array
 	 */
-	public function getSupportedExtensionsForRead()
+	public function getSupportedExtensionsForWrite()
 	{
-		return $this->getSupportedExtensionsForWrite();
+		return $this->getSupportedExtensionsForRead();
 	}
+
+	private function normalize(Id3MetadataInterface $id3Metadata)
+	{
+		$id3Metadata->setTitle($this->get('TIT2'));
+		$id3Metadata->setArtist($this->get('TPE1'));
+		$id3Metadata->setAlbum($this->get('TALB'));
+		$id3Metadata->setGenre(preg_replace('/\s\(\d{2,3}\)/', '', $this->get('TCON')));
+		$id3Metadata->setYear($this->get('TYER'));
+		$id3Metadata->setComment($this->get('COMM'));
+		$id3Metadata->setBpm($this->get('TBPM'));
+		$id3Metadata->setTimeDuration($this->getDuration());
+	}
+
+	/**
+	 * @return string
+	 */
+	private function get($tagName)
+	{
+		if (isset($this->rawReadOutput[$tagName])) {
+			return $this->rawReadOutput[$tagName];
+		}
+	}
+
+	/**
+	 * @return float
+	 */
+	private function getDuration()
+	{
+
+	}
+
 
 
 	/**
@@ -119,7 +143,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	private function artistUpdateCmd(Id3MetadataInterface $id3Metadata)
 	{
 		if (!is_null($id3Metadata->getArtist())) {
-			return sprintf(" --artist '%s'", $id3Metadata->getArtist());
+			return sprintf(" -a '%s'", $id3Metadata->getArtist());
 		}
 	}
 
@@ -130,7 +154,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	private function albumUpdateCmd(Id3MetadataInterface $id3Metadata)
 	{
 		if (!is_null($id3Metadata->getAlbum())) {
-			return sprintf(" --album %s", escapeshellarg($id3Metadata->getAlbum()));
+			return sprintf(" -A %s", escapeshellarg($id3Metadata->getAlbum()));
 		}
 	}
 	/**
@@ -140,7 +164,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	private function titleUpdateCmd(Id3MetadataInterface $id3Metadata)
 	{
 		if (!is_null($id3Metadata->getTitle())) {
-			return sprintf(" --title %s", escapeshellarg($id3Metadata->getTitle()));
+			return sprintf(" -t %s", escapeshellarg($id3Metadata->getTitle()));
 		}
 	}
 
@@ -151,7 +175,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	private function genreUpdateCmd(Id3MetadataInterface $id3Metadata)
 	{
 		if (!is_null($id3Metadata->getGenre())) {
-			return sprintf(" --genre %s", escapeshellarg($id3Metadata->getGenre()));
+			return sprintf(" -g %s", escapeshellarg($id3Metadata->getGenre()));
 		}
 	}
 	/**
@@ -161,7 +185,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	private function yearUpdateCmd(Id3MetadataInterface $id3Metadata)
 	{
 		if (!is_null($id3Metadata->getYear())) {
-			return sprintf(" --release-year %s", escapeshellarg($id3Metadata->getYear()));
+			return sprintf(" -y %s", escapeshellarg($id3Metadata->getYear()));
 		}
 	}
 
@@ -172,7 +196,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	private function commentUpdateCmd(Id3MetadataInterface $id3Metadata)
 	{
 		if (!is_null($id3Metadata->getComment())) {
-			return sprintf(" --comment %s", escapeshellarg($id3Metadata->getComment()));
+			return sprintf(" -c %s", escapeshellarg($id3Metadata->getComment()));
 		}
 	}
 
@@ -183,19 +207,8 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 	private function bpmUpdateCmd(Id3MetadataInterface $id3Metadata)
 	{
 		if (!is_null($id3Metadata->getBpm())) {
-			return sprintf(" --bpm %s", escapeshellarg($id3Metadata->getBpm()));
+			return sprintf(" --%s %s", Frames::bpm, escapeshellarg($id3Metadata->getBpm()));
 		}
-	}
-
-	/**
-	 * @param $patern
-	 * @param $namedSubMask
-	 * @return null
-	 */
-	private function getFromRegex($patern, $namedSubMask)
-	{
-		preg_match_all($patern, $this->rawReadOutput, $match);
-		return $match[$namedSubMask][0] ? $match[$namedSubMask][0] : null;
 	}
 
 }

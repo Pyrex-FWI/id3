@@ -30,8 +30,8 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 
 	public static function setUpBeforeClass()
 	{
-		self::$originalFile = Helper::getSampeMp3File();
-		self::$backupFile = Helper::getSampeMp3File().".back";
+		self::$originalFile = Helper::getSampleMp3File();
+		self::$backupFile = Helper::getSampleMp3File().".back";
 		copy(self::$originalFile, self::$backupFile);
 	}
 
@@ -54,7 +54,6 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 	public function testWrite()
 	{
 		$this->eyed3Wrapper->setBinPath(Helper::getEyed3Path());
-		//$this->assertContains("MediaInfoLib", $this->eyed3Wrapper->getVersion());
 
 		$writeData = [
 			'title' => 'Title',
@@ -63,9 +62,9 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 			'year' 	=> 2011,
 			'comm'	=> 'Test comment',
 			'bpm'	=> '122',
-
 		];
-		$metaDataFile = new Id3Metadata(Helper::getSampeMp3File());
+
+		$metaDataFile = new Id3Metadata(Helper::getSampleMp3File());
 		$metaDataFile->setAlbum($writeData['album']);
 		$metaDataFile->setTitle($writeData['title']);
 		$metaDataFile->setGenre($writeData['genre']);
@@ -75,7 +74,7 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertTrue($this->eyed3Wrapper->write($metaDataFile));
 
-		$metaDataFile = new Id3Metadata(Helper::getSampeMp3File());
+		$metaDataFile = new Id3Metadata(Helper::getSampleMp3File());
 		$this->assertTrue($this->eyed3Wrapper->read($metaDataFile));
 		$this->assertEquals($writeData['album'], $metaDataFile->getAlbum());
 		$this->assertEquals($writeData['title'], $metaDataFile->getTitle());
