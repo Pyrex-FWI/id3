@@ -25,7 +25,7 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
 
         $cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
         $this->rawReadOutput = trim(shell_exec($cmd));
-        preg_match_all('/^(?P<frame>\w{4}):\s+(\([^:\n]*:?\s?)?(?P<value>[^:]*$)/m', $this->rawReadOutput, $out);
+        preg_match_all('/^(?P<frame>\w{4})(\s\([^:\n]*:?\s?)?:\s+(\([^:\n]*:?\s?)?(?P<value>[^:]*$)/m', $this->rawReadOutput, $out);
         $this->rawReadOutput = array_combine($out['frame'], $out['value']);
         if (count($this->rawReadOutput) > 1) {
             $this->normalize($id3Metadata);
@@ -53,7 +53,7 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     public function getCommand($file)
     {
-        return sprintf('%s -R %s 2>&1', $this->binPath, escapeshellarg($file));
+        return sprintf('%s -l %s 2>&1', $this->binPath, escapeshellarg($file));
     }
 
     /**
