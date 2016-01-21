@@ -2,10 +2,8 @@
 
 namespace Cpyree\Id3\Metadata;
 
-
 interface Id3MetadataInterface
 {
-
     /**
      * @return \SplFileInfo
      */
@@ -17,6 +15,7 @@ interface Id3MetadataInterface
 
     /**
      * @param string $title
+     *
      * @return Id3MetadataBase
      */
     public function setTitle($title);
@@ -28,6 +27,7 @@ interface Id3MetadataInterface
 
     /**
      * @param string $artist
+     *
      * @return Id3MetadataBase
      */
     public function setArtist($artist);
@@ -39,6 +39,7 @@ interface Id3MetadataInterface
 
     /**
      * @param string $album
+     *
      * @return Id3MetadataBase
      */
     public function setAlbum($album);
@@ -50,6 +51,7 @@ interface Id3MetadataInterface
 
     /**
      * @param array $artists
+     *
      * @return Id3MetadataBase
      */
     public function setAllArtists($artists);
@@ -61,6 +63,7 @@ interface Id3MetadataInterface
 
     /**
      * @param string $genre
+     *
      * @return Id3MetadataBase
      */
     public function setGenre($genre);
@@ -72,6 +75,7 @@ interface Id3MetadataInterface
 
     /**
      * @param array $genres
+     *
      * @return Id3MetadataBase
      */
     public function setAllGenres($genres);
@@ -83,6 +87,7 @@ interface Id3MetadataInterface
 
     /**
      * @param string $comment
+     *
      * @return Id3MetadataBase
      */
     public function setComment($comment);
@@ -94,6 +99,7 @@ interface Id3MetadataInterface
 
     /**
      * @param int $year
+     *
      * @return Id3MetadataBase
      */
     public function setYear($year);
@@ -106,10 +112,10 @@ interface Id3MetadataInterface
     /**
      * @param
      * string $key
+     *
      * @return Id3MetadataBase
      */
     public function setKey($key);
-
 
     /**
      * @return string
@@ -119,20 +125,22 @@ interface Id3MetadataInterface
     /**
      * @param
      * string $bpm
+     *
      * @return Id3MetadataBase
      */
     public function setBpm($bpm);
 
     /**
-     * Time in seconds
+     * Time in seconds.
+     *
      * @return int
      */
     public function getTimeDuration();
 
     /**
      * @param $time
+     *
      * @return $this
      */
     public function setTimeDuration($time);
-
 }

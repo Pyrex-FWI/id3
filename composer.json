@@ -1,6 +1,6 @@
 {
   "name": "pyrex-fwi/id3",
-  "description": "description_text",
+  "description": "The package lays the basis for the simple manipulation of ID3 tags.\nYou can define readers and writers to manipulate the metadata in read or write.",
   "minimum-stability": "dev",
   "license": "MIT",
   "authors": [

@@ -2,10 +2,8 @@
 
 namespace Cpyree\Id3\Metadata;
 
-
 abstract class Id3MetadataBase implements Id3MetadataInterface
 {
-
     /**
      * @var \SplFileInfo
      */
@@ -83,11 +81,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param string $title
+     *
      * @return Id3MetadataBase
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -101,11 +101,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param string $artist
+     *
      * @return Id3MetadataBase
      */
     public function setArtist($artist)
     {
         $this->artist = trim($artist);
+
         return $this;
     }
 
@@ -119,11 +121,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param array $artists
+     *
      * @return Id3MetadataBase
      */
     public function setAllArtists($artists)
     {
         $this->artists = $artists;
+
         return $this;
     }
 
@@ -137,11 +141,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param string $genre
+     *
      * @return Id3MetadataBase
      */
     public function setGenre($genre)
     {
         $this->genre = trim($genre);
+
         return $this;
     }
 
@@ -155,11 +161,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param array $genres
+     *
      * @return Id3MetadataBase
      */
     public function setAllGenres($genres)
     {
         $this->genres = $genres;
+
         return $this;
     }
 
@@ -173,11 +181,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param string $comment
+     *
      * @return Id3MetadataBase
      */
     public function setComment($comment)
     {
         $this->comment = trim($comment);
+
         return $this;
     }
 
@@ -191,11 +201,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param int $year
+     *
      * @return Id3MetadataBase
      */
     public function setYear($year)
     {
         $this->year = trim($year);
+
         return $this;
     }
     /**
@@ -208,11 +220,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param int $bpm
+     *
      * @return Id3MetadataBase
      */
     public function setBpm($bpm)
     {
         $this->bpm = floatval(trim($bpm));
+
         return $this;
     }
 
@@ -226,11 +240,13 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param string $key
+     *
      * @return Id3MetadataBase
      */
     public function setKey($key)
     {
         $this->key = trim($key);
+
         return $this;
     }
 
@@ -244,17 +260,19 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param string $album
+     *
      * @return Id3MetadataBase
      */
     public function setAlbum($album)
     {
         $this->album = trim($album);
-        return $this;
 
+        return $this;
     }
 
     /**
-     * Time in seconds
+     * Time in seconds.
+     *
      * @return int
      */
     public function getTimeDuration()
@@ -264,11 +282,11 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
 
     /**
      * @param $time
+     *
      * @return $this
      */
     public function setTimeDuration($time)
     {
         $this->duration = trim($time);
     }
-
 }
