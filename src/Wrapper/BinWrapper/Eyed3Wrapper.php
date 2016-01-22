@@ -68,7 +68,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     public function getSupportedExtensionsForWrite()
     {
-        return [Helper::getFlacExt(), Helper::getMp3Ext(), Helper::getMp4Ext()];
+        return [Helper::getMp3Ext(), Helper::getMp4Ext()];
     }
 
     /**
@@ -201,11 +201,12 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
     /**
      * @param $patern
      * @param $namedSubMask
+     * @return null
      */
     private function getFromRegex($patern, $namedSubMask)
     {
         preg_match_all($patern, $this->rawReadOutput, $match);
 
-        return $match[$namedSubMask][0] ? $match[$namedSubMask][0] : null;
+        return isset($match[$namedSubMask][0]) ? $match[$namedSubMask][0] : null;
     }
 }
