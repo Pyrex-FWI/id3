@@ -5,15 +5,16 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 [![Build Status](https://travis-ci.org/Pyrex-FWI/id3.svg?branch=master)](https://travis-ci.org/Pyrex-FWI/id3)
 
-The package lays the basis for the simple manipulation of ID3 tags.
+The package lays the basis for the simple ID3 tags manipulation.
 
 You can define readers and writers to manipulate the metadata in read or write. 
 
-| Bin readers       | Available | Read | Write | Mp3 | Mp4 | Flac |
-|:----------------- |:---------:|:----:|:-----:|:---:|:---:|:----:|
-| [Mediainfo](https://mediaarea.net/en/MediaInfo)  | ✓ | ✓ |   | ✓ | ✓ | ✓ |
-| [EyeD3](http//eyed3.nicfit.net)                  | ✓ | ✓ | ✓ | ✓ | - | - |
-| [Id3v2](http://id3lib.sourceforge.net/)          | ✓ | ✓ | ✓ | ✓ | - | - |
+| Bin readers                                      | Available | Mp3 read | Mp3 write | Mp4 read | Mp4 write | Flac read | Flac write |
+|:------------------------------------------------ |:---------:|:--------:|:---------:|:--------:|:---------:|:---------:|:----------:|
+| [Mediainfo](https://mediaarea.net/en/MediaInfo)  |     ✓     |     ✓    |    no     |    ✓     |     -     |     ✓     |     no     |
+| [EyeD3](http//eyed3.nicfit.net)                  |     ✓     |     ✓    |     ✓     |    -     |     -     |     -     |     no     |
+| [Id3v2](http://id3lib.sourceforge.net/)          |     ✓     |     ✓    |     ✓     |    -     |     -     |     -     |     no     |
+| [metaflac](https://xiph.org/flac/download.html)   |     ✓     |    no    |     ✓     |    -     |     -     |     -     |      ✓     |
 
 
 ## Usages

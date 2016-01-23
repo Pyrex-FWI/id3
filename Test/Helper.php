@@ -9,6 +9,11 @@ class Helper
         return __DIR__.'/toddle.mp3';
     }
 
+    public static function getSampleFlacFile()
+    {
+        return __DIR__.'/04.flac';
+    }
+
     public static function getWrongMp3File()
     {
         return __DIR__.'/wrong_file.mp3';
@@ -23,9 +28,15 @@ class Helper
     {
         return '/usr/local/bin/eyeD3';
     }
+
     public static function getId3v2Path()
     {
         return '/usr/bin/id3v2';
+    }
+
+    public static function getMetaflacPath()
+    {
+        return '/usr/bin/metaflac';
     }
 
     /**
