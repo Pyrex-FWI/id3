@@ -170,7 +170,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
     private function yearUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
         if (!is_null($id3Metadata->getYear())) {
-            return sprintf(' --release-year %s', escapeshellarg($id3Metadata->getYear()));
+            return sprintf(' --release-year %1$s --orig-release-date=%1$s', escapeshellarg($id3Metadata->getYear()));
         }
     }
 
