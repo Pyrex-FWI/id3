@@ -88,7 +88,7 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
         $id3Metadata->setArtist($this->get('Performer'));
         $id3Metadata->setAlbum($this->get('Album'));
         $id3Metadata->setGenre($this->get('Genre'));
-        $id3Metadata->setYear($this->extractYear($this->get('Recorded_date')));
+        $id3Metadata->setYear($this->extractYear($this->get('Original_Released_date')? $this->get('Original_Released_date') : $this->get('Recorded_date')));
         $id3Metadata->setComment($this->get('Comment'));
         $id3Metadata->setBpm($this->get('BPM'));
         $id3Metadata->setTimeDuration($this->getDuration());
