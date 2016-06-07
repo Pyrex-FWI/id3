@@ -48,7 +48,6 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 	{
 		$eyed3 = new Eyed3Wrapper();
 		$eyed3->setBinPath(Helper::getEyed3Path());
-		//dump($eyed3->getVersion());
 	}
 
 	public function testWrite()
@@ -56,6 +55,7 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 		$this->eyed3Wrapper->setBinPath(Helper::getEyed3Path());
 
 		$writeData = [
+			'artist'=> 'Artist',
 			'title' => 'Title',
 			'album' => 'l\'album',
 			'genre' => 'Dance Hall',
@@ -65,6 +65,7 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 		];
 
 		$metaDataFile = new Id3Metadata(Helper::getSampleMp3File());
+		$metaDataFile->setArtist($writeData['artist']);
 		$metaDataFile->setAlbum($writeData['album']);
 		$metaDataFile->setTitle($writeData['title']);
 		$metaDataFile->setGenre($writeData['genre']);
@@ -82,5 +83,11 @@ class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($writeData['comm'], $metaDataFile->getComment());
 		$this->assertEquals($writeData['bpm'], $metaDataFile->getBpm());
 
+	}
+
+	public function testGetVersion()
+	{
+		$this->eyed3Wrapper->setBinPath(Helper::getEyed3Path());
+		$this->assertContains('eyeD3', $this->eyed3Wrapper->getVersion());
 	}
 }
