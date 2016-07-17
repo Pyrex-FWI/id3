@@ -1,9 +1,13 @@
 <?php
 
-namespace Cpyree\Id3\Writer;
+namespace Sapar\Id3\Writer;
 
-use Cpyree\Id3\Metadata\Id3MetadataInterface;
+use Sapar\Id3\Metadata\Id3MetadataInterface;
 
+/**
+ * Interface Id3WriterInterface
+ * @package Sapar\Id3\Writer
+ */
 interface Id3WriterInterface
 {
     /**

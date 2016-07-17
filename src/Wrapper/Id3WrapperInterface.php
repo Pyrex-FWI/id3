@@ -3,11 +3,15 @@
  * @author Christophe Pyree <christophe.pyree[at]gmail.com>
  */
 
-namespace Cpyree\Id3\Wrapper;
+namespace Sapar\Id3\Wrapper;
 
-use Cpyree\Id3\Reader\Id3ReaderInterface;
-use Cpyree\Id3\Writer\Id3WriterInterface;
+use Sapar\Id3\Reader\Id3ReaderInterface;
+use Sapar\Id3\Writer\Id3WriterInterface;
 
+/**
+ * Interface Id3WrapperInterface
+ * @package Sapar\Id3\Wrapper
+ */
 interface Id3WrapperInterface extends Id3ReaderInterface, Id3WriterInterface
 {
 }

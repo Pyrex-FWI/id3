@@ -1,10 +1,14 @@
 <?php
 
-namespace Cpyree\Id3\Wrapper\BinWrapper;
+namespace Sapar\Id3\Wrapper\BinWrapper;
 
-use Cpyree\Id3\Helper;
-use Cpyree\Id3\Metadata\Id3MetadataInterface;
+use Sapar\Id3\Helper;
+use Sapar\Id3\Metadata\Id3MetadataInterface;
 
+/**
+ * Class Eyed3Wrapper
+ * @package Sapar\Id3\Wrapper\BinWrapper
+ */
 class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
 {
     private $rawReadOutput;

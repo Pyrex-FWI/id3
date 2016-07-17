@@ -1,7 +1,11 @@
 <?php
 
-namespace Cpyree\Id3\Metadata;
+namespace Sapar\Id3\Metadata;
 
+/**
+ * Interface Id3MetadataInterface
+ * @package Sapar\Id3\Metadata
+ */
 interface Id3MetadataInterface
 {
     /**

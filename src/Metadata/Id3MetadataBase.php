@@ -1,7 +1,11 @@
 <?php
 
-namespace Cpyree\Id3\Metadata;
+namespace Sapar\Id3\Metadata;
 
+/**
+ * Class Id3MetadataBase
+ * @package Sapar\Id3\Metadata
+ */
 abstract class Id3MetadataBase implements Id3MetadataInterface
 {
     /**
@@ -55,6 +59,11 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      */
     protected $duration;
 
+    /**
+     * Id3MetadataBase constructor.
+     * @param $filePath
+     * @throws \Exception
+     */
     public function __construct($filePath)
     {
         if (!file_exists($filePath)) {

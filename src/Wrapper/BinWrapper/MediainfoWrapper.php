@@ -1,10 +1,14 @@
 <?php
 
-namespace Cpyree\Id3\Wrapper\BinWrapper;
+namespace Sapar\Id3\Wrapper\BinWrapper;
 
-use Cpyree\Id3\Helper;
-use Cpyree\Id3\Metadata\Id3MetadataInterface;
+use Sapar\Id3\Helper;
+use Sapar\Id3\Metadata\Id3MetadataInterface;
 
+/**
+ * Class MediainfoWrapper
+ * @package Sapar\Id3\Wrapper\BinWrapper
+ */
 class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
 {
     private $rawReadOutput;
@@ -82,6 +86,9 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
         return [];
     }
 
+    /**
+     * @param Id3MetadataInterface $id3Metadata
+     */
     private function normalize(Id3MetadataInterface $id3Metadata)
     {
         $id3Metadata->setTitle($this->get('Title'));

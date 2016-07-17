@@ -1,11 +1,15 @@
 <?php
 
-namespace Cpyree\Id3\Wrapper\BinWrapper;
+namespace Sapar\Id3\Wrapper\BinWrapper;
 
-use Cpyree\Id3\Helper;
-use Cpyree\Id3\Metadata\Id3MetadataInterface;
-use Cpyree\Id3\Spec\Frames;
+use Sapar\Id3\Helper;
+use Sapar\Id3\Metadata\Id3MetadataInterface;
+use Sapar\Id3\Spec\Frames;
 
+/**
+ * Class Id3v2Wrapper
+ * @package Sapar\Id3\Wrapper\BinWrapper
+ */
 class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
 {
     private $rawReadOutput;
@@ -91,6 +95,9 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
         return $this->getSupportedExtensionsForRead();
     }
 
+    /**
+     * @param Id3MetadataInterface $id3Metadata
+     */
     private function normalize(Id3MetadataInterface $id3Metadata)
     {
         $id3Metadata->setTitle($this->get('TIT2'));
