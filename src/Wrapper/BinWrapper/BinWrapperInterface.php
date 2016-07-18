@@ -1,9 +1,13 @@
 <?php
 
-namespace Cpyree\Id3\Wrapper\BinWrapper;
+namespace Sapar\Id3\Wrapper\BinWrapper;
 
-use Cpyree\Id3\Wrapper\Id3WrapperInterface;
+use Sapar\Id3\Wrapper\Id3WrapperInterface;
 
+/**
+ * Interface BinWrapperInterface
+ * @package Sapar\Id3\Wrapper\BinWrapper
+ */
 interface BinWrapperInterface extends Id3WrapperInterface
 {
     /**

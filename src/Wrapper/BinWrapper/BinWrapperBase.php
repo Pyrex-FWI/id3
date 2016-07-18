@@ -4,10 +4,14 @@
  * Date: 17/12/15
  */
 
-namespace Cpyree\Id3\Wrapper\BinWrapper;
+namespace Sapar\Id3\Wrapper\BinWrapper;
 
-use Cpyree\Id3\Metadata\Id3MetadataInterface;
+use Sapar\Id3\Metadata\Id3MetadataInterface;
 
+/**
+ * Class BinWrapperBase
+ * @package Sapar\Id3\Wrapper\BinWrapper
+ */
 abstract class BinWrapperBase implements  BinWrapperInterface
 {
     protected $binPath;

@@ -1,7 +1,11 @@
 <?php
 
-namespace Cpyree\Id3\Spec;
+namespace Sapar\Id3\Spec;
 
+/**
+ * Class Frames
+ * @package Sapar\Id3\Spec
+ */
 class Frames
 {
     const album = 'TALB';
@@ -105,6 +109,9 @@ class Frames
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function getGenreFrames()
     {
         return [

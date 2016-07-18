@@ -1,11 +1,11 @@
 <?php
 
-namespace Cpyree\Id3\Test\Metadata;
+namespace Sapar\Id3\Test\Metadata;
 
 
-use Cpyree\Id3\Test\Helper;
-use Cpyree\Id3\Metadata\Id3Metadata;
-use Cpyree\Id3\Metadata\Id3MetadataInterface;
+use Sapar\Id3\Test\Helper;
+use Sapar\Id3\Metadata\Id3Metadata;
+use Sapar\Id3\Metadata\Id3MetadataInterface;
 
 class Id3MetadataTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +38,7 @@ class Id3MetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstance(Id3MetadataInterface $id3Metadata)
     {
-        $this->assertInstanceOf('Cpyree\Id3\Metadata\Id3MetadataInterface', $id3Metadata);
+        $this->assertInstanceOf('Sapar\Id3\Metadata\Id3MetadataInterface', $id3Metadata);
     }
 
     /**

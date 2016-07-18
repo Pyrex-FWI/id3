@@ -4,8 +4,12 @@
  * Date: 17/12/15
  */
 
-namespace Cpyree\Id3;
+namespace Sapar\Id3;
 
+/**
+ * Class Helper
+ * @package Sapar\Id3
+ */
 class Helper
 {
     public static function getMp3Ext()

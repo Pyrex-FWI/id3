@@ -1,11 +1,11 @@
 <?php
 
-namespace Cpyree\Id3\Test\Wrapper\BinWrapper;
+namespace Sapar\Id3\Test\Wrapper\BinWrapper;
 
 
-use Cpyree\Id3\Metadata\Id3Metadata;
-use Cpyree\Id3\Wrapper\BinWrapper\MediainfoWrapper;
-use Cpyree\Id3\Test\Helper;
+use Sapar\Id3\Metadata\Id3Metadata;
+use Sapar\Id3\Wrapper\BinWrapper\MediainfoWrapper;
+use Sapar\Id3\Test\Helper;
 
 class MediainfoWrapperTest extends \PHPUnit_Framework_TestCase
 {

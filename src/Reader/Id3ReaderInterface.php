@@ -1,9 +1,13 @@
 <?php
 
-namespace Cpyree\Id3\Reader;
+namespace Sapar\Id3\Reader;
 
-use Cpyree\Id3\Metadata\Id3MetadataInterface;
+use Sapar\Id3\Metadata\Id3MetadataInterface;
 
+/**
+ * Interface Id3ReaderInterface
+ * @package Sapar\Id3\Reader
+ */
 interface Id3ReaderInterface
 {
     /**

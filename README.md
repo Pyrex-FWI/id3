@@ -14,7 +14,7 @@ You can define readers and writers to manipulate the metadata in read or write.
 | [Mediainfo](https://mediaarea.net/en/MediaInfo)  |     ✓     |     ✓    |    no     |    ✓     |     -     |     ✓     |     no     |
 | [EyeD3](http//eyed3.nicfit.net)                  |     ✓     |     ✓    |     ✓     |    -     |     -     |     -     |     no     |
 | [Id3v2](http://id3lib.sourceforge.net/)          |     ✓     |     ✓    |     ✓     |    -     |     -     |     -     |     no     |
-| [metaflac](https://xiph.org/flac/download.html)   |     ✓     |    no    |     ✓     |    -     |     -     |     -     |      ✓     |
+| [metaflac](https://xiph.org/flac/download.html)  |     ✓     |    no    |     ✓     |    -     |     -     |     -     |      ✓     |
 
 
 ## Usages
@@ -31,11 +31,11 @@ class MyClass
     {
         $mp3OrFlacFile = '/path/to/file';
         
-        /** @var Cpyree\Id3\Metadata\Id3MetadataInterface */
-        $id3Metadata = new Cpyree\Metadata\Id3Metadata($mp3OrFlacFile);
+        /** @var Sapar\Id3\Metadata\Id3MetadataInterface */
+        $id3Metadata = new Sapar\Metadata\Id3Metadata($mp3OrFlacFile);
         
-        /** @var Cpyree\Wrapper\BinWrapper\BinWrapperInterface */
-        $mediaInfoWrapper = new Cpyree\Wrapper\BinWrapper\MediainfoWrapper();
+        /** @var Sapar\Wrapper\BinWrapper\BinWrapperInterface */
+        $mediaInfoWrapper = new Sapar\Wrapper\BinWrapper\MediainfoWrapper();
         $mediaInfoWrapper->setBin('/usr/local/bin/mediainfo');
         
 		if ($mediaInfoWrapper->read($metaDataFile)) {
@@ -64,8 +64,8 @@ class MyClass
     {
         $mp3OrFlacFile = '/path/to/file';
         
-        /** @var Cpyree\Id3\Metadata\Id3MetadataInterface */
-        $id3Metadata = new Cpyree\Metadata\Id3Metadata($mp3OrFlacFile);
+        /** @var Sapar\Id3\Metadata\Id3MetadataInterface */
+        $id3Metadata = new Sapar\Metadata\Id3Metadata($mp3OrFlacFile);
 		$id3Metadata->setAlbum('album');
 		$id3Metadata->setTitle('title');
 		$id3Metadata->setGenre('genre');
@@ -73,8 +73,8 @@ class MyClass
 		$id3Metadata->setComment('comment');
 		$id3Metadata->setBpm(120);
 		
-        /** @var Cpyree\Wrapper\BinWrapper\BinWrapperInterface */
-        $id3v2wrapper = new Cpyree\Wrapper\BinWrapper\Id3v2Wrapper();
+        /** @var Sapar\Wrapper\BinWrapper\BinWrapperInterface */
+        $id3v2wrapper = new Sapar\Wrapper\BinWrapper\Id3v2Wrapper();
         $id3v2wrapper->setBin('/usr/local/bin/id3v2');
         
 		if ($mediaInfoReader->write($metaDataFile)) {

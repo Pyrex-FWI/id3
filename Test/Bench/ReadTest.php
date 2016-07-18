@@ -1,11 +1,11 @@
 <?php
 
-namespace Cpyree\Id3\Test\Bench;
+namespace Sapar\Id3\Test\Bench;
 
-use Cpyree\Id3\Metadata\Id3Metadata;
-use Cpyree\Id3\Test\Helper;
-use Cpyree\Id3\Wrapper\BinWrapper\Eyed3Wrapper;
-use Cpyree\Id3\Wrapper\BinWrapper\MediainfoWrapper;
+use Sapar\Id3\Metadata\Id3Metadata;
+use Sapar\Id3\Test\Helper;
+use Sapar\Id3\Wrapper\BinWrapper\Eyed3Wrapper;
+use Sapar\Id3\Wrapper\BinWrapper\MediainfoWrapper;
 
 class ReadTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,11 +28,11 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$id3meta = new \Cpyree\Id3\Metadata\Id3Metadata(Helper::getSampleMp3File());
-        self::$eyed3= new \Cpyree\Id3\Wrapper\BinWrapper\Eyed3Wrapper();
+        self::$id3meta = new \Sapar\Id3\Metadata\Id3Metadata(Helper::getSampleMp3File());
+        self::$eyed3= new \Sapar\Id3\Wrapper\BinWrapper\Eyed3Wrapper();
         self::$eyed3->setBinPath(Helper::getEyed3Path());
 
-        self::$mediainfo = new \Cpyree\Id3\Wrapper\BinWrapper\MediainfoWrapper();
+        self::$mediainfo = new \Sapar\Id3\Wrapper\BinWrapper\MediainfoWrapper();
         self::$mediainfo->setBinPath(Helper::getMediainfoPath());
 
     }

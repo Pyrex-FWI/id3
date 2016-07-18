@@ -1,6 +1,6 @@
 <?php
 
-namespace Cpyree\Id3\Test;
+namespace Sapar\Id3\Test;
 
 class Helper
 {
