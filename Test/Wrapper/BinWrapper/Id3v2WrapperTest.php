@@ -77,6 +77,7 @@ class Id3v2WrapperTest extends \PHPUnit_Framework_TestCase
 
 		$writeData = [
 			'title' => 'Title',
+			'artist'=> 'Artist',
 			'album' => 'l\'album',
 			'genre' => 'Dance Hall',
 			'year' 	=> 2011,
@@ -88,6 +89,7 @@ class Id3v2WrapperTest extends \PHPUnit_Framework_TestCase
 		$metaDataFile = new Id3Metadata(Helper::getSampleMp3File());
 
 		$metaDataFile->setAlbum($writeData['album']);
+		$metaDataFile->setArtist($writeData['artist']);
 		$metaDataFile->setTitle($writeData['title']);
 		$metaDataFile->setGenre($writeData['genre']);
 		$metaDataFile->setYear($writeData['year']);

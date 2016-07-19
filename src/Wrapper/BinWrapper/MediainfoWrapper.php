@@ -23,9 +23,11 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
     public function read(Id3MetadataInterface $id3Metadata)
     {
         if (!$this->supportRead($id3Metadata)) {
+            //@codeCoverageIgnoreStart
             throw new \Exception(sprintf('Read not supported for %s', $id3Metadata->getFile()->getRealPath()));
+            //@codeCoverageIgnoreEnd
         }
-
+        $result = false;
         $cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
         $out = shell_exec($cmd);
         $simpleXMLElement = @simplexml_load_string($out);
@@ -35,11 +37,11 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
             if ($this->getFileSize() > 0) {
                 $this->normalize($id3Metadata);
 
-                return true;
+                $result =  true;
             }
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -111,9 +113,7 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
     private function extractYear($rawRecordedDate)
     {
         preg_match_all('/^(...)?\s?(?P<year>\d{4})(\-\s?\d{1,2}\-\s?\d{1,2})?$/', $rawRecordedDate, $match_all);
-        if (isset($match_all['year'][0])) {
-            return intval($match_all['year'][0]);
-        }
+        return isset($match_all['year'][0]) ? (int)$match_all['year'][0] : null;
     }
 
     /**
@@ -121,9 +121,7 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function get($tagName)
     {
-        if ($this->rawReadOutput->{$tagName}) {
-            return $this->rawReadOutput->{$tagName}->__toString();
-        }
+        return $this->rawReadOutput->{$tagName} ? $this->rawReadOutput->{$tagName}->__toString() : null;
     }
 
     /**
@@ -131,9 +129,7 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function getDuration()
     {
-        if ($this->rawReadOutput->Duration[0]) {
-            return $this->rawReadOutput->Duration[0]->__toString() / 1000;
-        }
+        return $this->rawReadOutput->Duration[0] ? $this->rawReadOutput->Duration[0]->__toString() / 1000 : null;
     }
 
     /**
@@ -141,8 +137,6 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function getFileSize()
     {
-        if ($this->rawReadOutput->File_size[0]) {
-            return intval($this->rawReadOutput->File_size[0]->__toString());
-        }
+        return $this->rawReadOutput->File_size[0] ? (int) $this->rawReadOutput->File_size[0]->__toString() : null;
     }
 }

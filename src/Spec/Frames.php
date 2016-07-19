@@ -5,6 +5,7 @@ namespace Sapar\Id3\Spec;
 /**
  * Class Frames
  * @package Sapar\Id3\Spec
+ * @codeCoverageIgnore
  */
 class Frames
 {

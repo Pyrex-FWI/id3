@@ -92,6 +92,15 @@ class Id3MetadataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function serialization()
+    {
+        $id3Meta = $this->getId3MetadataInstance();
+        $this->assertTrue(is_string(json_encode($id3Meta)));
+    }
+
+    /**
      * @return array
      */
     public static function getGenres()

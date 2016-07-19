@@ -5,7 +5,6 @@ namespace Sapar\Id3\Test\Wrapper\BinWrapper;
 
 use Sapar\Id3\Metadata\Id3Metadata;
 use Sapar\Id3\Wrapper\BinWrapper\Eyed3Wrapper;
-use Sapar\Id3\Wrapper\BinWrapper\MediainfoWrapper;
 use Sapar\Id3\Test\Helper;
 
 class Eyed3WrapperTest extends \PHPUnit_Framework_TestCase

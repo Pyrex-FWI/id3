@@ -2,7 +2,11 @@
 
 namespace Sapar\Id3\Metadata;
 
-class Id3Metadata extends Id3MetadataBase implements Id3MetadataInterface, \JsonSerializable
+/**
+ * Class Id3Metadata
+ * @package Sapar\Id3\Metadata
+ */
+class Id3Metadata extends Id3MetadataBase implements \JsonSerializable
 {
     /**
      * Specify data which should be serialized to JSON.

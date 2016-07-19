@@ -10,7 +10,7 @@ use Sapar\Id3\Spec\Frames;
  * Class Id3v2Wrapper
  * @package Sapar\Id3\Wrapper\BinWrapper
  */
-class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
+class Id3v2Wrapper extends BinWrapperBase
 {
     private $rawReadOutput;
 
@@ -19,14 +19,17 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function read(Id3MetadataInterface $id3Metadata)
     {
         if (!$this->supportRead($id3Metadata)) {
-            throw new \Exception(sprintf('Read not supported for %s', $id3Metadata->getFile()->getRealPath()));
+            //@codeCoverageIgnoreStart
+            throw new \InvalidArgumentException(sprintf('Read not supported for %s', $id3Metadata->getFile()->getRealPath()));
+            //@codeCoverageIgnoreEnd
         }
 
+        $result = false;
         $cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
         $this->rawReadOutput = trim(shell_exec($cmd));
         preg_match_all('/^(?P<frame>\w{4})(\s\([^:\n]*:?\s?)?:\s+(\([^:\n]*:?\s?)?(?P<value>[^:]*$)/m', $this->rawReadOutput, $out);
@@ -34,10 +37,10 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
         if (count($this->rawReadOutput) > 1) {
             $this->normalize($id3Metadata);
 
-            return true;
+            $result = true;
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -73,12 +76,14 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function write(Id3MetadataInterface $id3Metadata)
     {
         if (!$this->supportWrite($id3Metadata)) {
-            throw new \Exception(sprintf('Write not supported for %s', '' + $id3Metadata->getFile()->getRealPath()));
+            //@codeCoverageIgnoreStart
+            throw new \InvalidArgumentException(sprintf('Write not supported for %s', '' + $id3Metadata->getFile()->getRealPath()));
+            //@codeCoverageIgnoreEnd
         }
 
         $cmd = (sprintf('%s  %s %s', $this->binPath, escapeshellarg($id3Metadata->getFile()->getRealPath()), $this->buildCmdPart($id3Metadata)));
@@ -115,9 +120,11 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function get($tagName)
     {
-        if (isset($this->rawReadOutput[$tagName])) {
-            return $this->rawReadOutput[$tagName];
+        $result = null;
+        if (isset($this->rawReadOutput[$tagName]) ) {
+            $result = $this->rawReadOutput[$tagName];
         }
+        return $result;
     }
 
     /**
@@ -151,9 +158,11 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function artistUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getArtist())) {
-            return sprintf(" -a '%s'", $id3Metadata->getArtist());
+        $result = null;
+        if (null !== $id3Metadata->getArtist()) {
+            $result = sprintf(" -a '%s'", $id3Metadata->getArtist());
         }
+        return $result;
     }
 
     /**
@@ -163,9 +172,11 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function albumUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getAlbum())) {
-            return sprintf(' -A %s', escapeshellarg($id3Metadata->getAlbum()));
+        $result = null;
+        if (null !== $id3Metadata->getAlbum()) {
+            $result = sprintf(' -A %s', escapeshellarg($id3Metadata->getAlbum()));
         }
+        return $result;
     }
     /**
      * @param Id3MetadataInterface $id3Metadata
@@ -174,9 +185,11 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function titleUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getTitle())) {
-            return sprintf(' -t %s', escapeshellarg($id3Metadata->getTitle()));
+        $result = null;
+        if (null !== $id3Metadata->getTitle()) {
+            $result =  sprintf(' -t %s', escapeshellarg($id3Metadata->getTitle()));
         }
+        return $result;
     }
 
     /**
@@ -186,9 +199,11 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function genreUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getGenre())) {
-            return sprintf(' -g %s', escapeshellarg($id3Metadata->getGenre()));
+        $result = null;
+        if (null !== $id3Metadata->getGenre()) {
+            $result = sprintf(' -g %s', escapeshellarg($id3Metadata->getGenre()));
         }
+        return $result;
     }
     /**
      * @param Id3MetadataInterface $id3Metadata
@@ -197,9 +212,11 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function yearUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getYear())) {
-            return sprintf(' -y %s', escapeshellarg($id3Metadata->getYear()));
+        $result = null;
+        if (null !== $id3Metadata->getYear()) {
+            $result = sprintf(' -y %s', escapeshellarg($id3Metadata->getYear()));
         }
+        return $result;
     }
 
     /**
@@ -209,9 +226,11 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function commentUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getComment())) {
-            return sprintf(' -c %s', escapeshellarg($id3Metadata->getComment()));
+        $result = null;
+        if (null !==$id3Metadata->getComment()) {
+            $result = sprintf(' -c %s', escapeshellarg($id3Metadata->getComment()));
         }
+        return $result;
     }
 
     /**
@@ -221,8 +240,10 @@ class Id3v2Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function bpmUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getBpm())) {
-            return sprintf(' --%s %s', Frames::bpm, escapeshellarg($id3Metadata->getBpm()));
+        $result = null;
+        if (null !==$id3Metadata->getBpm()) {
+            $result = sprintf(' --%s %s', Frames::bpm, escapeshellarg($id3Metadata->getBpm()));
         }
+        return $result;
     }
 }

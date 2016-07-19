@@ -9,7 +9,7 @@ use Sapar\Id3\Metadata\Id3MetadataInterface;
  * Class MetaflacWrapper
  * @package Sapar\Id3\Wrapper\BinWrapper
  */
-class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
+class MetaflacWrapper extends BinWrapperBase
 {
     private $rawReadOutput;
 
@@ -23,12 +23,16 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
     public function read(Id3MetadataInterface $id3Metadata)
     {
         if (!$this->supportRead($id3Metadata)) {
+            //@codeCoverageIgnoreStart
             throw new \Exception(sprintf('Read not supported for %s', $id3Metadata->getFile()->getRealPath()));
+            //@codeCoverageIgnoreEnd
         }
+        $result = false;
+
         $cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
         exec($cmd, $output, $return);
 
-        if (!boolval($return) && preg_match_all("/^(?P<tag>[\w]*)=(?P<value>[\w\s\n\']*)$/m", implode(PHP_EOL, $output), $match)) {
+        if (!(bool)$return && preg_match_all("/^(?P<tag>[\w]*)=(?P<value>[\w\s\n\']*)$/m", implode(PHP_EOL, $output), $match)) {
             $this->rawReadOutput = array_combine($match['tag'], $match['value']);
             $id3Metadata
                 ->setArtist($this->get('artist'))
@@ -40,10 +44,10 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
                 ->setYear($this->get('date'))
             ;
 
-            return true;
+            $result = true;
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -85,13 +89,15 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
     public function write(Id3MetadataInterface $id3Metadata)
     {
         if (!$this->supportWrite($id3Metadata)) {
+            //@codeCoverageIgnoreStart
             throw new \Exception('Write not supported for %s', $id3Metadata->getFile()->getRealPath());
+            //@codeCoverageIgnoreEnd
         }
 
         $cmd = (sprintf('%s  %s %s &> /dev/null', $this->binPath, escapeshellarg($id3Metadata->getFile()->getRealPath()), $this->buildCmdPart($id3Metadata)));
         exec($cmd, $output, $return_var);
 
-        return !(boolval($return_var));
+        return !(bool)$return_var;
     }
 
     /**
@@ -126,9 +132,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function artistUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getArtist())) {
-            return sprintf("--remove-tag=ARTIST --set-tag=%s", escapeshellarg('ARTIST='.$id3Metadata->getArtist()));
-        }
+        return null !== $id3Metadata->getArtist() ? sprintf("--remove-tag=ARTIST --set-tag=%s", escapeshellarg('ARTIST='.$id3Metadata->getArtist())) : null;
     }
 
     /**
@@ -138,9 +142,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function albumUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getAlbum())) {
-            return sprintf(" --remove-tag=ALBUM --set-tag=%s", escapeshellarg("ALBUM=".$id3Metadata->getAlbum()));
-        }
+        return null !== $id3Metadata->getAlbum() ? sprintf(" --remove-tag=ALBUM --set-tag=%s", escapeshellarg("ALBUM=".$id3Metadata->getAlbum())) : null;
     }
     /**
      * @param Id3MetadataInterface $id3Metadata
@@ -149,9 +151,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function titleUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getTitle())) {
-            return sprintf(" --remove-tag=TITLE --set-tag=%s", escapeshellarg('TITLE='.$id3Metadata->getTitle()));
-        }
+        return null !== $id3Metadata->getTitle() ? sprintf(" --remove-tag=TITLE --set-tag=%s", escapeshellarg('TITLE='.$id3Metadata->getTitle())) : null;
     }
 
     /**
@@ -161,9 +161,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function genreUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getGenre())) {
-            return sprintf(" --remove-first-tag=GENRE --set-tag=%s", escapeshellarg('GENRE='.$id3Metadata->getGenre()));
-        }
+        return null !== $id3Metadata->getGenre() ? sprintf(" --remove-first-tag=GENRE --set-tag=%s", escapeshellarg('GENRE='.$id3Metadata->getGenre())) : null;
     }
     /**
      * @param Id3MetadataInterface $id3Metadata
@@ -172,9 +170,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function yearUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getYear())) {
-            return sprintf(" --remove-tag=DATE --set-tag=%s", escapeshellarg('DATE='.$id3Metadata->getYear()));
-        }
+        return null !== $id3Metadata->getYear() ? sprintf(" --remove-tag=DATE --set-tag=%s", escapeshellarg('DATE='.$id3Metadata->getYear())) : null;
     }
 
     /**
@@ -184,9 +180,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function commentUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getComment())) {
-            return sprintf(" --remove-tag=DESCRIPTION --set-tag=%s", escapeshellarg('DESCRIPTION='.$id3Metadata->getComment()));
-        }
+        return  null !== $id3Metadata->getComment() ? sprintf(" --remove-tag=DESCRIPTION --set-tag=%s", escapeshellarg('DESCRIPTION='.$id3Metadata->getComment())) : null;
     }
 
     /**
@@ -196,9 +190,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
      */
     private function bpmUpdateCmd(Id3MetadataInterface $id3Metadata)
     {
-        if (!is_null($id3Metadata->getBpm())) {
-            return sprintf(" --remove-tag=BPM --set-tag=%s", escapeshellarg('BPM='.$id3Metadata->getBpm()));
-        }
+        return null !== $id3Metadata->getBpm() ? sprintf(" --remove-tag=BPM --set-tag=%s", escapeshellarg('BPM='.$id3Metadata->getBpm())) : null;
     }
 
     /**
