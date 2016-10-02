@@ -26,6 +26,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
             throw new \Exception('Read not supported for %s', $id3Metadata->getFile()->getRealPath());
         }
         $cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
+        $this->logger->info(sprintf('cmd is %s', $cmd));
         exec($cmd, $output, $return);
 
         if (!boolval($return)) {
@@ -64,7 +65,7 @@ class Eyed3Wrapper extends BinWrapperBase implements BinWrapperInterface
      */
     public function getCommand($file)
     {
-        return sprintf('%s --no-color --v2 %s 2> /dev/null', $this->binPath, $file);
+        return sprintf('%s --no-color --v2 "%sId3v2Wrapper" 2> /dev/null', $this->binPath, $file);
     }
 
     /**

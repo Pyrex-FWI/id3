@@ -64,12 +64,12 @@ abstract class Id3MetadataBase implements Id3MetadataInterface
      * @param $filePath
      * @throws \Exception
      */
-    public function __construct($filePath)
+    public function __construct($file)
     {
-        if (!file_exists($filePath)) {
-            throw new \Exception(sprintf('%s not exist', $filePath));
+        if (!file_exists($file)) {
+            throw new \Exception(sprintf('%s not exist', $file));
         }
-        $this->file = new  \SplFileInfo($filePath);
+        $this->file = new  \SplFileInfo($file);
     }
 
     /**

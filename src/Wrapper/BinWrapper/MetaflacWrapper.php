@@ -26,6 +26,7 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
             throw new \Exception(sprintf('Read not supported for %s', $id3Metadata->getFile()->getRealPath()));
         }
         $cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
+        $this->logger->info(sprintf('cmd is %s', $cmd));
         exec($cmd, $output, $return);
 
         if (!boolval($return) && preg_match_all("/^(?P<tag>[\w]*)=(?P<value>[\w\s\n\']*)$/m", implode(PHP_EOL, $output), $match)) {
@@ -88,8 +89,10 @@ class MetaflacWrapper extends BinWrapperBase implements BinWrapperInterface
             throw new \Exception('Write not supported for %s', $id3Metadata->getFile()->getRealPath());
         }
 
-        $cmd = (sprintf('%s  %s %s &> /dev/null', $this->binPath, escapeshellarg($id3Metadata->getFile()->getRealPath()), $this->buildCmdPart($id3Metadata)));
+        $cmd = (sprintf('%s  "%s" %s &> /dev/null', $this->binPath, ($id3Metadata->getFile()->getRealPath()), $this->buildCmdPart($id3Metadata)));
+        $this->logger->info(sprintf('cmd is %s', $cmd));
         exec($cmd, $output, $return_var);
+        $this->logger->info(sprintf('return is %s', (string) $return_var));
 
         return !(boolval($return_var));
     }

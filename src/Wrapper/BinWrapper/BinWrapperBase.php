@@ -6,6 +6,8 @@
 
 namespace Sapar\Id3\Wrapper\BinWrapper;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Sapar\Id3\Metadata\Id3MetadataInterface;
 
 /**
@@ -14,7 +16,16 @@ use Sapar\Id3\Metadata\Id3MetadataInterface;
  */
 abstract class BinWrapperBase implements  BinWrapperInterface
 {
+    /** @var  string */
     protected $binPath;
+
+    /** @var  LoggerInterface */
+    protected $logger;
+
+    public function __construct()
+    {
+        $this->logger = new NullLogger();
+    }
 
     /**
      * @param string $binPath
@@ -50,5 +61,10 @@ abstract class BinWrapperBase implements  BinWrapperInterface
     public function supportWrite(Id3MetadataInterface $id3Metadata)
     {
         return in_array($id3Metadata->getFile()->getExtension(), $this->getSupportedExtensionsForWrite());
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 }

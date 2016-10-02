@@ -27,9 +27,13 @@ class MediainfoWrapper extends BinWrapperBase implements BinWrapperInterface
         }
 
         $cmd = $this->getCommand($id3Metadata->getFile()->getRealPath());
+        $this->logger->info(sprintf('cmd is %s', $cmd));
         $out = shell_exec($cmd);
         $simpleXMLElement = @simplexml_load_string($out);
-        if ($simpleXMLElement) {
+        if (! $simpleXMLElement instanceof  \SimpleXMLElement) {
+            return false;
+        }
+        if ($simpleXMLElement->attributes('ref') == $id3Metadata->getFile()->getRealPath()) {
             /* @var \SimpleXMLElement $simpleXMLElement */
             $this->rawReadOutput = $simpleXMLElement->File[0]->track[0];
             if ($this->getFileSize() > 0) {
